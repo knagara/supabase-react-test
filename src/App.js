@@ -4,11 +4,13 @@ import { supabase } from "./supabaseClient";
 import Auth from "./Auth";
 import Account from "./Account";
 
-export default function App() {
+export default function Home() {
   const [session, setSession] = useState(null);
 
   useEffect(() => {
-    setSession(supabase.auth.session());
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+    });
 
     supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
